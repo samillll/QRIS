@@ -7,7 +7,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
         body {
             background: #0A0B0E;
             color: #FFFFFF;
@@ -16,14 +15,9 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 20px 15px 40px;
+            padding: 20px 15px 80px;
         }
-
-        .container {
-            width: 100%;
-            max-width: 440px;
-        }
-
+        .container { width: 100%; max-width: 440px; }
         .card {
             background: rgba(16, 18, 22, 0.85);
             backdrop-filter: blur(14px);
@@ -35,7 +29,6 @@
             position: relative;
             overflow: hidden;
         }
-
         .card::before {
             content: '';
             position: absolute;
@@ -45,14 +38,12 @@
             opacity: 0.6;
             filter: blur(2px);
         }
-
         .header {
             text-align: center;
             padding-bottom: 16px;
             border-bottom: 2px solid rgba(255, 110, 0, 0.1);
             margin-bottom: 16px;
         }
-
         .header h1 {
             font-family: 'Orbitron', sans-serif;
             font-weight: 900;
@@ -61,7 +52,6 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-
         .header p {
             color: #9AA0A6;
             font-size: 0.8rem;
@@ -69,11 +59,7 @@
         }
 
         /* ===== QRIS DISPLAY ===== */
-        .qris-box {
-            text-align: center;
-            padding: 10px 0;
-        }
-
+        .qris-box { text-align: center; padding: 10px 0; }
         .qris-box .qris-image {
             background: #FFFFFF;
             padding: 20px;
@@ -81,26 +67,19 @@
             display: inline-block;
             margin: 0 auto;
         }
-
-        .qris-box .qris-image canvas {
-            display: block;
-            margin: 0 auto;
-        }
-
+        .qris-box .qris-image canvas { display: block; margin: 0 auto; }
         .qris-box .merchant-name {
             font-size: 1.2rem;
             font-weight: 700;
             color: #FF6E00;
             margin-top: 12px;
         }
-
         .qris-box .qris-id {
             font-size: 0.7rem;
             color: #54585E;
             font-family: 'Orbitron', monospace;
             letter-spacing: 2px;
         }
-
         .qris-box .badge-free {
             display: inline-block;
             padding: 4px 20px;
@@ -112,12 +91,19 @@
             border: 1px solid rgba(0, 255, 136, 0.1);
             margin-top: 8px;
         }
-
-        /* ===== STEPS ===== */
-        .steps {
-            margin-top: 16px;
+        .qris-box .gpn {
+            display: inline-block;
+            margin-top: 6px;
+            font-size: 0.6rem;
+            color: #54585E;
+            letter-spacing: 3px;
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 2px 16px;
+            border-radius: 30px;
         }
 
+        /* ===== STEPS ===== */
+        .steps { margin-top: 16px; }
         .step {
             display: flex;
             gap: 14px;
@@ -125,14 +111,9 @@
             padding: 12px 0;
             border-bottom: 1px solid rgba(255, 255, 255, 0.02);
         }
-
-        .step:last-child {
-            border-bottom: none;
-        }
-
+        .step:last-child { border-bottom: none; }
         .step .number {
-            width: 28px;
-            height: 28px;
+            width: 28px; height: 28px;
             border-radius: 50%;
             background: rgba(255, 110, 0, 0.15);
             color: #FF6E00;
@@ -143,16 +124,8 @@
             justify-content: center;
             flex-shrink: 0;
         }
-
-        .step .desc {
-            color: #9AA0A6;
-            font-size: 0.85rem;
-            line-height: 1.4;
-        }
-
-        .step .desc strong {
-            color: #FFFFFF;
-        }
+        .step .desc { color: #9AA0A6; font-size: 0.85rem; line-height: 1.4; }
+        .step .desc strong { color: #FFFFFF; }
 
         /* ===== SALDO ===== */
         .saldo-box {
@@ -165,12 +138,7 @@
             border: 1px solid rgba(255, 110, 0, 0.08);
             margin-bottom: 16px;
         }
-
-        .saldo-box .label {
-            color: #9AA0A6;
-            font-size: 0.9rem;
-        }
-
+        .saldo-box .label { color: #9AA0A6; font-size: 0.9rem; }
         .saldo-box .amount {
             font-family: 'Orbitron', monospace;
             font-size: 1.4rem;
@@ -179,10 +147,7 @@
         }
 
         /* ===== FORM ===== */
-        .form-group {
-            margin-bottom: 16px;
-        }
-
+        .form-group { margin-bottom: 16px; }
         .form-group label {
             display: block;
             color: #9AA0A6;
@@ -190,7 +155,6 @@
             margin-bottom: 4px;
             letter-spacing: 1px;
         }
-
         .form-group input {
             width: 100%;
             padding: 14px 18px;
@@ -202,13 +166,9 @@
             font-size: 1.1rem;
             outline: none;
         }
-
-        .form-group input:focus {
-            border-color: #FF6E00;
-            box-shadow: 0 0 40px rgba(255, 110, 0, 0.1);
-        }
-
-        .form-group input::file-selector-button {
+        .form-group input:focus { border-color: #FF6E00; box-shadow: 0 0 40px rgba(255, 110, 0, 0.1); }
+        .form-group input[type="file"] { padding: 12px 16px; color: #9AA0A6; }
+        .form-group input[type="file"]::file-selector-button {
             padding: 8px 16px;
             border: none;
             border-radius: 10px;
@@ -217,11 +177,6 @@
             font-weight: 700;
             cursor: pointer;
             margin-right: 12px;
-        }
-
-        .form-group input[type="file"] {
-            padding: 12px 16px;
-            color: #9AA0A6;
         }
 
         .btn-primary {
@@ -239,21 +194,9 @@
             transition: 0.3s;
             margin-top: 4px;
         }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 0 40px rgba(255, 110, 0, 0.2);
-        }
-
-        .btn-primary:active {
-            transform: scale(0.97);
-        }
-
-        .btn-primary:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 40px rgba(255, 110, 0, 0.2); }
+        .btn-primary:active { transform: scale(0.97); }
+        .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
         .btn-secondary {
             width: 100%;
@@ -269,13 +212,23 @@
             letter-spacing: 2px;
             margin-top: 8px;
         }
+        .btn-secondary:hover { border-color: rgba(255, 110, 0, 0.3); color: #FF6E00; }
 
-        .btn-secondary:hover {
-            border-color: rgba(255, 110, 0, 0.3);
-            color: #FF6E00;
+        .btn-danger {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid rgba(255, 68, 0, 0.2);
+            border-radius: 60px;
+            background: transparent;
+            color: #FF4400;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 8px;
         }
+        .btn-danger:hover { background: rgba(255, 68, 0, 0.05); border-color: #FF4400; }
 
-        /* ===== RIWAYAT ===== */
         .riwayat-item {
             display: flex;
             justify-content: space-between;
@@ -286,42 +239,33 @@
             border: 1px solid rgba(255, 255, 255, 0.03);
             margin-bottom: 8px;
         }
+        .riwayat-item .left .type { font-weight: 700; font-size: 0.9rem; }
+        .riwayat-item .left .date { font-size: 0.65rem; color: #54585E; }
+        .riwayat-item .right { font-weight: 700; font-size: 1rem; }
+        .riwayat-item .right.plus { color: #00ff88; }
+        .riwayat-item .right.pending { color: #ff8c00; }
+        .riwayat-item .right.minus { color: #ff4466; }
 
-        .riwayat-item .left .type {
-            font-weight: 700;
-            font-size: 0.9rem;
+        .empty-state { text-align: center; padding: 30px 20px; color: #54585E; }
+        .empty-state .icon { font-size: 3rem; display: block; margin-bottom: 10px; }
+
+        .preview-container { margin-top: 12px; text-align: center; display: none; }
+        .preview-container img {
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .preview-container .remove-btn {
+            background: transparent;
+            border: none;
+            color: #ff4466;
+            font-size: 0.8rem;
+            cursor: pointer;
+            margin-top: 4px;
         }
 
-        .riwayat-item .left .date {
-            font-size: 0.65rem;
-            color: #54585E;
-        }
-
-        .riwayat-item .right {
-            font-weight: 700;
-            font-size: 1rem;
-        }
-
-        .riwayat-item .right.plus {
-            color: #00ff88;
-        }
-
-        .riwayat-item .right.pending {
-            color: #ff8c00;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 30px 20px;
-            color: #54585E;
-        }
-
-        .empty-state .icon {
-            font-size: 3rem;
-            display: block;
-            margin-bottom: 10px;
-        }
-
+        /* ===== BOTTOM NAV ===== */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -332,47 +276,35 @@
             border-top: 1px solid rgba(255, 110, 0, 0.08);
             display: flex;
             justify-content: space-around;
-            padding: 10px 0 16px;
+            padding: 8px 0 14px;
             max-width: 440px;
             margin: 0 auto;
             z-index: 100;
         }
-
         .bottom-nav .nav-item {
             background: transparent;
             border: none;
             color: #54585E;
             font-family: 'Rajdhani', sans-serif;
-            font-size: 0.65rem;
+            font-size: 0.6rem;
             font-weight: 700;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
             cursor: pointer;
             transition: 0.3s;
             text-align: center;
-            padding: 4px 12px;
+            padding: 2px 8px;
+            min-width: 50px;
         }
-
         .bottom-nav .nav-item .nav-icon {
             display: block;
-            font-size: 1.4rem;
+            font-size: 1.2rem;
             margin-bottom: 2px;
         }
+        .bottom-nav .nav-item.active { color: #FF6E00; }
+        .bottom-nav .nav-item:hover { color: #FF6E00; }
 
-        .bottom-nav .nav-item.active {
-            color: #FF6E00;
-        }
-
-        .bottom-nav .nav-item:hover {
-            color: #FF6E00;
-        }
-
-        .page {
-            display: none;
-        }
-
-        .page.active {
-            display: block;
-        }
+        .page { display: none; }
+        .page.active { display: block; }
 
         #toastContainer {
             position: fixed;
@@ -384,7 +316,6 @@
             max-width: 440px;
             pointer-events: none;
         }
-
         .toast {
             background: rgba(10, 11, 14, 0.95);
             backdrop-filter: blur(16px);
@@ -404,63 +335,31 @@
             animation: slideDown 0.4s forwards;
             pointer-events: auto;
         }
-
-        .toast.error {
-            border-left-color: #CC4400;
-        }
-
-        .toast.success {
-            border-left-color: #00ff88;
-        }
-
+        .toast.error { border-left-color: #CC4400; }
+        .toast.success { border-left-color: #00ff88; }
         @keyframes slideDown {
-            0% {
-                opacity: 0;
-                transform: translateY(-30px) scale(0.9) translateX(-50%);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0) scale(1) translateX(-50%);
-            }
+            0% { opacity: 0; transform: translateY(-30px) scale(0.9) translateX(-50%); }
+            100% { opacity: 1; transform: translateY(0) scale(1) translateX(-50%); }
         }
 
-        /* Preview bukti */
-        .preview-container {
-            margin-top: 12px;
-            text-align: center;
-            display: none;
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
         }
-
-        .preview-container img {
-            max-width: 100%;
-            max-height: 200px;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .preview-container .remove-btn {
-            background: transparent;
-            border: none;
-            color: #ff4466;
-            font-size: 0.8rem;
-            cursor: pointer;
-            margin-top: 4px;
-        }
+        .setting-item .label { color: #9AA0A6; font-size: 0.95rem; }
+        .setting-item .value { color: #fff; font-weight: 600; font-size: 0.95rem; }
+        .setting-item .value.hidden { filter: blur(8px); }
 
         @media (max-width: 480px) {
-            .header h1 {
-                font-size: 1.8rem;
-            }
-            .qris-box .qris-image {
-                padding: 12px;
-            }
-            .qris-box .qris-image canvas {
-                width: 180px !important;
-                height: 180px !important;
-            }
-            .saldo-box .amount {
-                font-size: 1.1rem;
-            }
+            .header h1 { font-size: 1.8rem; }
+            .qris-box .qris-image { padding: 12px; }
+            .qris-box .qris-image canvas { width: 180px !important; height: 180px !important; }
+            .saldo-box .amount { font-size: 1.1rem; }
+            .bottom-nav .nav-item { font-size: 0.5rem; min-width: 40px; }
+            .bottom-nav .nav-item .nav-icon { font-size: 1rem; }
         }
     </style>
 </head>
@@ -481,7 +380,7 @@
                 </div>
 
                 <div class="saldo-box">
-                    <span class="label">💳 Saldo</span>
+                    <span class="label">Saldo</span>
                     <span class="amount" id="saldoAmount">Rp 0</span>
                 </div>
 
@@ -491,7 +390,8 @@
                     </div>
                     <div class="merchant-name" id="merchantName">Samil Store</div>
                     <div class="qris-id">Dicetak oleh: <span id="qrisId">93600008</span></div>
-                    <div class="badge-free">✅ GRATIS ADMIN</div>
+                    <div class="badge-free">Gratis Admin</div>
+                    <div class="gpn">GPN</div>
                 </div>
             </div>
 
@@ -503,21 +403,15 @@
                 <div class="steps">
                     <div class="step">
                         <div class="number">1</div>
-                        <div class="desc">
-                            Lakukan Transfer Ke <strong>QRIS di Atas</strong> sesuai nominal yang kamu inginkan
-                        </div>
+                        <div class="desc">Lakukan Transfer Ke <strong>QRIS di Atas</strong> sesuai nominal yang kamu inginkan</div>
                     </div>
                     <div class="step">
                         <div class="number">2</div>
-                        <div class="desc">
-                            <strong>Konfirmasi</strong>, Masukan Nominal yang di transfer dan <strong>Foto Bukti Transfer</strong>
-                        </div>
+                        <div class="desc"><strong>Konfirmasi</strong>, Masukan Nominal yang di transfer dan <strong>Foto Bukti Transfer</strong></div>
                     </div>
                     <div class="step">
                         <div class="number">3</div>
-                        <div class="desc">
-                            Tunggu <strong>1-5 Menit</strong> Topup saldo akan di proses oleh admin
-                        </div>
+                        <div class="desc">Tunggu <strong>1-5 Menit</strong> Topup saldo akan di proses oleh admin</div>
                     </div>
                 </div>
             </div>
@@ -525,12 +419,12 @@
             <div class="card">
                 <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
                     <div class="menu-item" onclick="navigateTo('pageKonfirmasi')" style="background:rgba(255,255,255,0.02);border-radius:16px;padding:18px 12px;text-align:center;border:1px solid rgba(255,255,255,0.03);cursor:pointer;transition:0.3s;">
-                        <span style="font-size:28px;display:block;margin-bottom:4px;">✅</span>
+                        <span style="font-size:28px;display:block;margin-bottom:4px;">&#128220;</span>
                         <div style="font-weight:700;font-size:1rem;color:#fff;">Konfirmasi</div>
                         <div style="font-size:0.7rem;color:#54585E;">Upload bukti transfer</div>
                     </div>
                     <div class="menu-item" onclick="navigateTo('pageRiwayat')" style="background:rgba(255,255,255,0.02);border-radius:16px;padding:18px 12px;text-align:center;border:1px solid rgba(255,255,255,0.03);cursor:pointer;transition:0.3s;">
-                        <span style="font-size:28px;display:block;margin-bottom:4px;">📋</span>
+                        <span style="font-size:28px;display:block;margin-bottom:4px;">&#128203;</span>
                         <div style="font-weight:700;font-size:1rem;color:#fff;">Riwayat</div>
                         <div style="font-size:0.7rem;color:#54585E;">Lihat transaksi</div>
                     </div>
@@ -549,24 +443,24 @@
                 </div>
 
                 <div class="form-group">
-                    <label>💰 Nominal Transfer</label>
+                    <label>Nominal Transfer</label>
                     <input type="number" id="nominalTransfer" placeholder="Masukkan nominal yang ditransfer" value="10000">
                 </div>
 
                 <div class="form-group">
-                    <label>📸 Foto Bukti Transfer</label>
+                    <label>Foto Bukti Transfer</label>
                     <input type="file" id="buktiTransfer" accept="image/*" onchange="previewImage(this)">
                 </div>
 
                 <div class="preview-container" id="previewContainer">
                     <img id="previewImage" src="" alt="Preview bukti transfer">
-                    <button class="remove-btn" onclick="removePreview()">✕ Hapus</button>
+                    <button class="remove-btn" onclick="removePreview()">&#10005; Hapus</button>
                 </div>
 
                 <button class="btn-primary" id="btnKonfirmasi" onclick="konfirmasiTransfer()">
-                    ✅ KONFIRMASI
+                    KONFIRMASI
                 </button>
-                <button class="btn-secondary" onclick="navigateTo('pageHome')">← Kembali</button>
+                <button class="btn-secondary" onclick="navigateTo('pageHome')">&#8592; Kembali</button>
             </div>
         </div>
 
@@ -581,11 +475,77 @@
                 </div>
                 <div id="riwayatList">
                     <div class="empty-state">
-                        <span class="icon">📭</span>
+                        <span class="icon">&#128203;</span>
                         Belum ada transaksi
                     </div>
                 </div>
-                <button class="btn-secondary" onclick="navigateTo('pageHome')">← Kembali</button>
+                <button class="btn-secondary" onclick="navigateTo('pageHome')">&#8592; Kembali</button>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- PAGE PENARIKAN -->
+        <!-- ============================================================ -->
+        <div class="page" id="pagePenarikan">
+            <div class="card">
+                <div class="header">
+                    <h1 style="font-size:1.6rem;">Penarikan</h1>
+                    <p>TARIK SALDO</p>
+                </div>
+
+                <div style="display:flex;justify-content:space-between;color:#9AA0A6;font-size:0.9rem;margin-bottom:16px;">
+                    <span>Saldo Tersedia</span>
+                    <span id="penarikanSaldo" style="color:#FF6E00;font-weight:700;">Rp 0</span>
+                </div>
+
+                <div class="form-group">
+                    <label>Nominal Penarikan</label>
+                    <input type="number" id="withdrawAmount" placeholder="Minimal Rp 5.000">
+                </div>
+                <div class="form-group">
+                    <label>Nomor Rekening / E-Wallet</label>
+                    <input type="text" id="withdrawAccount" placeholder="08123456789">
+                </div>
+
+                <button class="btn-primary" onclick="processWithdraw()">TARIK SALDO</button>
+                <button class="btn-secondary" onclick="navigateTo('pageHome')">&#8592; Kembali</button>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- PAGE SETTING -->
+        <!-- ============================================================ -->
+        <div class="page" id="pageSetting">
+            <div class="card">
+                <div class="header">
+                    <h1 style="font-size:1.6rem;">Pengaturan</h1>
+                    <p>SETTING</p>
+                </div>
+
+                <div class="setting-item">
+                    <span class="label">Server Status</span>
+                    <span class="value" id="serverStatus" style="color:#ff8c00;">Menghubungi...</span>
+                </div>
+                <div class="setting-item">
+                    <span class="label">Total Saldo</span>
+                    <span class="value" id="settingSaldo">Rp 0</span>
+                </div>
+                <div class="setting-item">
+                    <span class="label">Total Transaksi</span>
+                    <span class="value" id="settingTotalTx">0</span>
+                </div>
+                <div class="setting-item">
+                    <span class="label">API Base</span>
+                    <span class="value" id="apiBaseDisplay" style="font-size:0.7rem;color:#54585E;word-break:break-all;">http://localhost:3000</span>
+                </div>
+
+                <div style="margin-top:16px;display:flex;gap:8px;">
+                    <input type="text" id="apiBaseInput" placeholder="https://api.your-server.com" style="flex:1;padding:12px 16px;border-radius:12px;border:2px solid rgba(255,110,0,0.15);background:rgba(0,0,0,0.5);color:#fff;font-family:'Rajdhani',sans-serif;font-size:0.9rem;outline:none;">
+                    <button onclick="saveApiBase()" style="padding:12px 20px;border-radius:12px;border:none;background:#FF6E00;color:#fff;font-weight:700;cursor:pointer;">Simpan</button>
+                </div>
+
+                <button class="btn-danger" style="width:100%;padding:12px;border:2px solid rgba(255,68,0,0.2);border-radius:16px;background:transparent;color:#FF4400;font-weight:700;font-size:1rem;cursor:pointer;transition:0.3s;margin-top:12px;" onclick="resetAll()">Reset Semua Data</button>
+                <button class="btn-secondary" onclick="navigateTo('pageHome')">&#8592; Kembali</button>
             </div>
         </div>
 
@@ -594,13 +554,19 @@
         <!-- ============================================================ -->
         <div class="bottom-nav">
             <button class="nav-item active" data-page="pageHome" onclick="navigateTo('pageHome')">
-                <span class="nav-icon">🏠</span> Home
-            </button>
-            <button class="nav-item" data-page="pageKonfirmasi" onclick="navigateTo('pageKonfirmasi')">
-                <span class="nav-icon">✅</span> Konfirmasi
+                <span class="nav-icon">&#127968;</span> Home
             </button>
             <button class="nav-item" data-page="pageRiwayat" onclick="navigateTo('pageRiwayat')">
-                <span class="nav-icon">📋</span> Riwayat
+                <span class="nav-icon">&#128203;</span> Riwayat
+            </button>
+            <button class="nav-item" data-page="pageQris" onclick="navigateTo('pageHome')">
+                <span class="nav-icon">&#128207;</span> Qris
+            </button>
+            <button class="nav-item" data-page="pagePenarikan" onclick="navigateTo('pagePenarikan')">
+                <span class="nav-icon">&#128181;</span> Penarikan
+            </button>
+            <button class="nav-item" data-page="pageSetting" onclick="navigateTo('pageSetting')">
+                <span class="nav-icon">&#9881;</span> Setting
             </button>
         </div>
 
@@ -608,17 +574,18 @@
 
     <!-- ===== QRCODE LIBRARY ===== -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    <!-- ===== OCR LIBRARY (Tesseract.js) ===== -->
-    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 
     <script>
         // ============================================================
         // QRIS MERCHANT - FULL SYSTEM
         // ============================================================
 
+        // ===== API BASE =====
+        let API_BASE = localStorage.getItem('qris_api_base') || 'http://localhost:3000';
+
         // ===== STATE =====
-        let saldo = parseInt(localStorage.getItem('qris_saldo')) || 0;
-        let riwayat = JSON.parse(localStorage.getItem('qris_riwayat')) || [];
+        let saldo = 0;
+        let riwayat = [];
         let qrInstance = null;
         let fileData = null;
 
@@ -674,25 +641,47 @@
         }
 
         // ============================================================
+        // LOAD DATA FROM SERVER
+        // ============================================================
+        async function loadData() {
+            try {
+                // Load saldo
+                const saldoResp = await fetch(`${API_BASE}/api/saldo`);
+                const saldoData = await saldoResp.json();
+                saldo = saldoData.saldo || 0;
+                updateSaldoUI();
+
+                // Load riwayat
+                const riwayatResp = await fetch(`${API_BASE}/api/riwayat`);
+                const riwayatData = await riwayatResp.json();
+                riwayat = riwayatData || [];
+                updateRiwayatUI();
+
+                document.getElementById('serverStatus').textContent = 'Online';
+                document.getElementById('serverStatus').style.color = '#00ff88';
+                document.getElementById('apiBaseDisplay').textContent = API_BASE;
+
+            } catch (err) {
+                console.error('Error load data:', err);
+                document.getElementById('serverStatus').textContent = 'Offline';
+                document.getElementById('serverStatus').style.color = '#ff4466';
+                // Fallback ke localStorage
+                saldo = parseInt(localStorage.getItem('qris_saldo')) || 0;
+                riwayat = JSON.parse(localStorage.getItem('qris_riwayat')) || [];
+                updateSaldoUI();
+                updateRiwayatUI();
+            }
+        }
+
+        // ============================================================
         // SALDO
         // ============================================================
         function updateSaldoUI() {
-            document.getElementById('saldoAmount').textContent = 'Rp ' + saldo.toLocaleString('id-ID');
+            const formatted = 'Rp ' + saldo.toLocaleString('id-ID');
+            document.getElementById('saldoAmount').textContent = formatted;
+            document.getElementById('penarikanSaldo').textContent = formatted;
+            document.getElementById('settingSaldo').textContent = formatted;
             localStorage.setItem('qris_saldo', saldo.toString());
-        }
-
-        function tambahSaldo(nominal, keterangan = 'Topup QRIS') {
-            saldo += nominal;
-            riwayat.push({
-                type: 'Masuk',
-                nominal: nominal,
-                keterangan: keterangan,
-                date: new Date().toLocaleString('id-ID'),
-                status: 'success'
-            });
-            localStorage.setItem('qris_riwayat', JSON.stringify(riwayat));
-            updateSaldoUI();
-            showToast(`💰 +Rp ${nominal.toLocaleString('id-ID')} masuk ke saldo!`, 'success');
         }
 
         // ============================================================
@@ -721,7 +710,7 @@
         }
 
         // ============================================================
-        // KONFIRMASI TRANSFER (DENGAN OCR)
+        // KONFIRMASI TRANSFER
         // ============================================================
         async function konfirmasiTransfer() {
             const nominal = parseInt(document.getElementById('nominalTransfer').value.replace(/\D/g, ''));
@@ -731,7 +720,6 @@
                 showToast('Masukkan nominal minimal Rp 1.000!', 'error');
                 return;
             }
-
             if (!file) {
                 showToast('Upload foto bukti transfer!', 'error');
                 return;
@@ -739,82 +727,103 @@
 
             const btn = document.getElementById('btnKonfirmasi');
             btn.disabled = true;
-            btn.textContent = '⏳ MEMPROSES...';
-            showToast('🔍 Menganalisis bukti transfer...', 'info');
+            btn.textContent = 'MEMPROSES...';
+            showToast('Memproses bukti transfer...', 'info');
 
             try {
-                // ===== OCR DENGAN TESSERACT =====
-                const imageUrl = URL.createObjectURL(file);
-                const result = await Tesseract.recognize(imageUrl, 'ind', {
-                    logger: m => {
-                        if (m.status === 'recognizing text') {
-                            console.log('OCR progress:', m.progress);
-                        }
-                    }
+                // Kirim ke server
+                const formData = new FormData();
+                formData.append('nominal', nominal);
+                formData.append('bukti', file);
+
+                const resp = await fetch(`${API_BASE}/api/konfirmasi`, {
+                    method: 'POST',
+                    body: formData
                 });
 
-                const text = result.data.text;
-                console.log('OCR Result:', text);
+                const data = await resp.json();
 
-                // ===== EKSTRAK NOMINAL DARI OCR =====
-                // Cari pola angka dengan format Rp atau nominal
-                const regex = /(?:Rp|IDR|ratusan?)?\s*([0-9.,]+)/gi;
-                const matches = text.matchAll(regex);
-                let detectedNominal = null;
-
-                for (const match of matches) {
-                    let angka = match[1].replace(/[,.]/g, '');
-                    let num = parseInt(angka);
-                    if (num > 1000) {
-                        detectedNominal = num;
-                        break;
-                    }
-                }
-
-                // ===== AUTO VERIFIKASI =====
-                let isVerified = false;
-                let verificationNote = '';
-
-                if (detectedNominal) {
-                    // Cek apakah nominal yang dideteksi sesuai dengan yang diinput
-                    const tolerance = 500;
-                    if (Math.abs(detectedNominal - nominal) <= tolerance) {
-                        isVerified = true;
-                        verificationNote = `🔍 Terdeteksi: Rp ${detectedNominal.toLocaleString('id-ID')} (Auto Verified)`;
-                    } else {
-                        verificationNote = `⚠️ Deteksi OCR: Rp ${detectedNominal.toLocaleString('id-ID')} (tidak sesuai)`;
-                    }
+                if (data.success) {
+                    saldo = data.saldo;
+                    riwayat = data.riwayat || [];
+                    updateSaldoUI();
+                    updateRiwayatUI();
+                    showToast(`💰 +Rp ${nominal.toLocaleString('id-ID')} masuk ke saldo!`, 'success');
+                    document.getElementById('nominalTransfer').value = '';
+                    removePreview();
                 } else {
-                    verificationNote = '⚠️ Tidak terdeteksi nominal dari bukti. Verifikasi manual.';
-                }
-
-                // ===== TAMBAH SALDO =====
-                tambahSaldo(nominal, `Topup QRIS (${isVerified ? 'Auto' : 'Manual'})`);
-
-                // ===== RESET FORM =====
-                document.getElementById('nominalTransfer').value = '';
-                removePreview();
-                btn.disabled = false;
-                btn.textContent = '✅ KONFIRMASI';
-                updateRiwayatUI();
-
-                // ===== TOAST HASIL =====
-                if (isVerified) {
-                    showToast(`✅ Topup Rp ${nominal.toLocaleString('id-ID')} berhasil! ${verificationNote}`, 'success');
-                } else {
-                    showToast(`⚠️ Topup Rp ${nominal.toLocaleString('id-ID')} berhasil! ${verificationNote}`, 'info');
+                    showToast(data.error || 'Gagal konfirmasi!', 'error');
                 }
 
             } catch (err) {
-                console.error('OCR Error:', err);
-                // Fallback: tetap tambah saldo meskipun OCR gagal (manual)
-                tambahSaldo(nominal, 'Topup QRIS (Manual)');
+                // Fallback: simpan ke localStorage
+                showToast('Server offline, simpan lokal...', 'info');
+                tambahSaldoLocal(nominal, 'Topup QRIS (Offline)');
                 document.getElementById('nominalTransfer').value = '';
                 removePreview();
-                btn.disabled = false;
-                btn.textContent = '✅ KONFIRMASI';
-                updateRiwayatUI();
-                showToast(`✅ Topup Rp ${nominal.toLocaleString('id-ID')} berhasil (tanpa verifikasi otomatis)`, 'success');
+            }
+
+            btn.disabled = false;
+            btn.textContent = 'KONFIRMASI';
+        }
+
+        function tambahSaldoLocal(nominal, keterangan) {
+            saldo += nominal;
+            riwayat.push({
+                type: 'Masuk',
+                nominal: nominal,
+                keterangan: keterangan,
+                date: new Date().toLocaleString('id-ID'),
+                status: 'success'
+            });
+            localStorage.setItem('qris_saldo', saldo.toString());
+            localStorage.setItem('qris_riwayat', JSON.stringify(riwayat));
+            updateSaldoUI();
+            updateRiwayatUI();
+            showToast(`💰 +Rp ${nominal.toLocaleString('id-ID')} (lokal)`, 'success');
+        }
+
+        // ============================================================
+        // PENARIKAN
+        // ============================================================
+        async function processWithdraw() {
+            const amount = parseInt(document.getElementById('withdrawAmount').value.replace(/\D/g, ''));
+            const account = document.getElementById('withdrawAccount').value.trim();
+
+            if (!amount || amount < 5000) {
+                showToast('Minimal penarikan Rp 5.000', 'error');
+                return;
+            }
+            if (!account) {
+                showToast('Masukkan nomor rekening/e-wallet!', 'error');
+                return;
+            }
+            if (saldo < amount) {
+                showToast('Saldo tidak cukup!', 'error');
+                return;
+            }
+
+            try {
+                const resp = await fetch(`${API_BASE}/api/withdraw`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ amount, account })
+                });
+                const data = await resp.json();
+
+                if (data.success) {
+                    saldo = data.saldo;
+                    riwayat = data.riwayat || [];
+                    updateSaldoUI();
+                    updateRiwayatUI();
+                    showToast(`✅ ${data.message}`, 'success');
+                    document.getElementById('withdrawAmount').value = '';
+                    document.getElementById('withdrawAccount').value = '';
+                } else {
+                    showToast(data.error || 'Gagal!', 'error');
+                }
+            } catch (err) {
+                showToast('Server offline, coba lagi nanti', 'error');
             }
         }
 
@@ -826,7 +835,7 @@
             if (riwayat.length === 0) {
                 container.innerHTML = `
                     <div class="empty-state">
-                        <span class="icon">📭</span>
+                        <span class="icon">&#128203;</span>
                         Belum ada transaksi
                     </div>
                 `;
@@ -837,7 +846,6 @@
             const reversed = [...riwayat].reverse();
             reversed.forEach(item => {
                 const isPlus = item.type === 'Masuk';
-                const statusLabel = item.status === 'success' ? '' : '⏳';
                 html += `
                     <div class="riwayat-item">
                         <div class="left">
@@ -845,12 +853,37 @@
                             <div class="date">${item.date}</div>
                         </div>
                         <div class="right ${isPlus ? 'plus' : ''}">
-                            ${isPlus ? '+' : ''} Rp ${item.nominal.toLocaleString('id-ID')} ${statusLabel}
+                            ${isPlus ? '+' : ''} Rp ${item.nominal.toLocaleString('id-ID')}
                         </div>
                     </div>
                 `;
             });
             container.innerHTML = html;
+            document.getElementById('settingTotalTx').textContent = riwayat.length;
+        }
+
+        // ============================================================
+        // SETTING
+        // ============================================================
+        function saveApiBase() {
+            const input = document.getElementById('apiBaseInput');
+            const newUrl = input.value.trim();
+            if (newUrl) {
+                localStorage.setItem('qris_api_base', newUrl);
+                API_BASE = newUrl;
+                document.getElementById('apiBaseDisplay').textContent = newUrl;
+                showToast('API Base updated!', 'success');
+                setTimeout(() => window.location.reload(), 1000);
+            }
+        }
+
+        function resetAll() {
+            if (!confirm('Yakin mau reset semua data?')) return;
+            localStorage.removeItem('qris_saldo');
+            localStorage.removeItem('qris_riwayat');
+            localStorage.removeItem('qris_api_base');
+            showToast('Data direset!', '');
+            setTimeout(() => window.location.reload(), 1000);
         }
 
         // ============================================================
@@ -858,13 +891,18 @@
         // ============================================================
         function navigateTo(pageId) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById(pageId).classList.add('active');
+            const page = document.getElementById(pageId);
+            if (page) page.classList.add('active');
 
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
             document.querySelector(`.nav-item[data-page="${pageId}"]`)?.classList.add('active');
 
             if (pageId === 'pageRiwayat') updateRiwayatUI();
-            if (pageId === 'pageHome') updateSaldoUI();
+            if (pageId === 'pageHome' || pageId === 'pagePenarikan') updateSaldoUI();
+            if (pageId === 'pageSetting') {
+                document.getElementById('apiBaseDisplay').textContent = API_BASE;
+                document.getElementById('apiBaseInput').value = API_BASE;
+            }
         }
 
         // ============================================================
@@ -872,12 +910,17 @@
         // ============================================================
         document.addEventListener('DOMContentLoaded', function() {
             generateQRIS();
-            updateSaldoUI();
-            updateRiwayatUI();
+            loadData();
 
             // Enter key support
             document.getElementById('nominalTransfer').addEventListener('keydown', function(e) {
                 if (e.key === 'Enter') konfirmasiTransfer();
+            });
+            document.getElementById('withdrawAmount').addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') processWithdraw();
+            });
+            document.getElementById('withdrawAccount').addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') processWithdraw();
             });
         });
     </script>
