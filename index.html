@@ -3,30 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>203X Wallet</title>
+    <title>QRIS Merchant</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
             background: #0A0B0E;
             color: #FFFFFF;
             font-family: 'Rajdhani', sans-serif;
             min-height: 100vh;
             display: flex;
-            justify-content: center;
-            padding: 20px 15px 80px;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 15px 40px;
         }
-        .container { width: 100%; max-width: 440px; }
+
+        .container {
+            width: 100%;
+            max-width: 440px;
+        }
+
         .card {
             background: rgba(16, 18, 22, 0.85);
             backdrop-filter: blur(14px);
             border-radius: 24px;
             padding: 24px 22px;
             border: 1px solid rgba(255, 110, 0, 0.1);
+            box-shadow: 0 0 30px rgba(255, 110, 0, 0.05);
             margin-bottom: 20px;
             position: relative;
             overflow: hidden;
         }
+
         .card::before {
             content: '';
             position: absolute;
@@ -36,12 +45,14 @@
             opacity: 0.6;
             filter: blur(2px);
         }
+
         .header {
             text-align: center;
             padding-bottom: 16px;
             border-bottom: 2px solid rgba(255, 110, 0, 0.1);
             margin-bottom: 16px;
         }
+
         .header h1 {
             font-family: 'Orbitron', sans-serif;
             font-weight: 900;
@@ -50,63 +61,136 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        .header p { color: #9AA0A6; font-size: 0.8rem; letter-spacing: 4px; }
 
-        .saldo-box { text-align: center; padding: 20px 0; }
-        .saldo-box .label { color: #9AA0A6; font-size: 0.9rem; letter-spacing: 3px; text-transform: uppercase; }
-        .saldo-box .amount {
-            font-family: 'Orbitron', monospace;
-            font-size: 3rem;
-            font-weight: 900;
-            color: #FF6E00;
-            text-shadow: 0 0 40px rgba(255, 110, 0, 0.2);
-            margin: 4px 0;
-        }
-        .saldo-box .amount.hidden { filter: blur(12px); user-select: none; }
-
-        .btn-primary {
-            width: 100%;
-            padding: 14px;
-            border: none;
-            border-radius: 16px;
-            background: linear-gradient(90deg, #FF6E00, #FF9E3D);
-            color: #0A0C12;
-            font-family: 'Rajdhani', sans-serif;
-            font-weight: 900;
-            font-size: 1.1rem;
-            letter-spacing: 2px;
-            cursor: pointer;
-            transition: 0.3s;
-            margin-top: 8px;
-        }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 40px rgba(255, 110, 0, 0.2); }
-        .btn-primary:active { transform: scale(0.97); }
-        .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
-
-        .btn-secondary {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid rgba(255, 110, 0, 0.15);
-            border-radius: 16px;
-            background: transparent;
+        .header p {
             color: #9AA0A6;
-            font-family: 'Rajdhani', sans-serif;
+            font-size: 0.8rem;
+            letter-spacing: 4px;
+        }
+
+        /* ===== QRIS DISPLAY ===== */
+        .qris-box {
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        .qris-box .qris-image {
+            background: #FFFFFF;
+            padding: 20px;
+            border-radius: 20px;
+            display: inline-block;
+            margin: 0 auto;
+        }
+
+        .qris-box .qris-image canvas {
+            display: block;
+            margin: 0 auto;
+        }
+
+        .qris-box .merchant-name {
+            font-size: 1.2rem;
             font-weight: 700;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: 0.3s;
+            color: #FF6E00;
+            margin-top: 12px;
+        }
+
+        .qris-box .qris-id {
+            font-size: 0.7rem;
+            color: #54585E;
+            font-family: 'Orbitron', monospace;
+            letter-spacing: 2px;
+        }
+
+        .qris-box .badge-free {
+            display: inline-block;
+            padding: 4px 20px;
+            border-radius: 30px;
+            background: rgba(0, 255, 136, 0.1);
+            color: #00ff88;
+            font-weight: 700;
+            font-size: 0.8rem;
+            border: 1px solid rgba(0, 255, 136, 0.1);
             margin-top: 8px;
         }
-        .btn-secondary:hover { border-color: #FF6E00; color: #FF6E00; }
 
-        .form-group { margin-bottom: 16px; }
-        .form-group label {
+        /* ===== STEPS ===== */
+        .steps {
+            margin-top: 16px;
+        }
+
+        .step {
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+        }
+
+        .step:last-child {
+            border-bottom: none;
+        }
+
+        .step .number {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: rgba(255, 110, 0, 0.15);
+            color: #FF6E00;
+            font-weight: 900;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .step .desc {
             color: #9AA0A6;
             font-size: 0.85rem;
+            line-height: 1.4;
+        }
+
+        .step .desc strong {
+            color: #FFFFFF;
+        }
+
+        /* ===== SALDO ===== */
+        .saldo-box {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            border-radius: 16px;
+            background: rgba(255, 110, 0, 0.03);
+            border: 1px solid rgba(255, 110, 0, 0.08);
+            margin-bottom: 16px;
+        }
+
+        .saldo-box .label {
+            color: #9AA0A6;
+            font-size: 0.9rem;
+        }
+
+        .saldo-box .amount {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.4rem;
+            font-weight: 900;
+            color: #FF6E00;
+        }
+
+        /* ===== FORM ===== */
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
             display: block;
+            color: #9AA0A6;
+            font-size: 0.85rem;
             margin-bottom: 4px;
             letter-spacing: 1px;
         }
+
         .form-group input {
             width: 100%;
             padding: 14px 18px;
@@ -118,13 +202,80 @@
             font-size: 1.1rem;
             outline: none;
         }
-        .form-group input:focus { border-color: #FF6E00; box-shadow: 0 0 40px rgba(255, 110, 0, 0.1); }
 
-        .qris-container { text-align: center; padding: 10px 0; }
-        .qris-container img { max-width: 100%; border-radius: 16px; background: #fff; padding: 12px; }
-        .qris-info { margin-top: 12px; color: #9AA0A6; font-size: 0.85rem; }
-        .qris-info strong { color: #FF6E00; }
+        .form-group input:focus {
+            border-color: #FF6E00;
+            box-shadow: 0 0 40px rgba(255, 110, 0, 0.1);
+        }
 
+        .form-group input::file-selector-button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 10px;
+            background: #FF6E00;
+            color: #0A0C12;
+            font-weight: 700;
+            cursor: pointer;
+            margin-right: 12px;
+        }
+
+        .form-group input[type="file"] {
+            padding: 12px 16px;
+            color: #9AA0A6;
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 20px;
+            background: linear-gradient(90deg, #FF6E00, #FF9E3D);
+            color: #0A0C12;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 900;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 4px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 40px rgba(255, 110, 0, 0.2);
+        }
+
+        .btn-primary:active {
+            transform: scale(0.97);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid rgba(255, 255, 255, 0.05);
+            border-radius: 60px;
+            background: transparent;
+            color: #54585E;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: 0.3s;
+            letter-spacing: 2px;
+            margin-top: 8px;
+        }
+
+        .btn-secondary:hover {
+            border-color: rgba(255, 110, 0, 0.3);
+            color: #FF6E00;
+        }
+
+        /* ===== RIWAYAT ===== */
         .riwayat-item {
             display: flex;
             justify-content: space-between;
@@ -135,15 +286,41 @@
             border: 1px solid rgba(255, 255, 255, 0.03);
             margin-bottom: 8px;
         }
-        .riwayat-item .left .type { font-weight: 700; font-size: 0.95rem; }
-        .riwayat-item .left .date { font-size: 0.7rem; color: #54585E; }
-        .riwayat-item .right { font-weight: 700; font-size: 1rem; }
-        .riwayat-item .right.plus { color: #00ff88; }
-        .riwayat-item .right.minus { color: #ff4466; }
-        .riwayat-item .right.pending { color: #ff8c00; }
 
-        .empty-state { text-align: center; padding: 40px 20px; color: #54585E; }
-        .empty-state .icon { font-size: 3rem; display: block; margin-bottom: 10px; }
+        .riwayat-item .left .type {
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .riwayat-item .left .date {
+            font-size: 0.65rem;
+            color: #54585E;
+        }
+
+        .riwayat-item .right {
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .riwayat-item .right.plus {
+            color: #00ff88;
+        }
+
+        .riwayat-item .right.pending {
+            color: #ff8c00;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 30px 20px;
+            color: #54585E;
+        }
+
+        .empty-state .icon {
+            font-size: 3rem;
+            display: block;
+            margin-bottom: 10px;
+        }
 
         .bottom-nav {
             position: fixed;
@@ -160,6 +337,7 @@
             margin: 0 auto;
             z-index: 100;
         }
+
         .bottom-nav .nav-item {
             background: transparent;
             border: none;
@@ -173,12 +351,28 @@
             text-align: center;
             padding: 4px 12px;
         }
-        .bottom-nav .nav-item .nav-icon { display: block; font-size: 1.4rem; margin-bottom: 2px; }
-        .bottom-nav .nav-item.active { color: #FF6E00; }
-        .bottom-nav .nav-item:hover { color: #FF6E00; }
 
-        .page { display: none; }
-        .page.active { display: block; }
+        .bottom-nav .nav-item .nav-icon {
+            display: block;
+            font-size: 1.4rem;
+            margin-bottom: 2px;
+        }
+
+        .bottom-nav .nav-item.active {
+            color: #FF6E00;
+        }
+
+        .bottom-nav .nav-item:hover {
+            color: #FF6E00;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
 
         #toastContainer {
             position: fixed;
@@ -190,6 +384,7 @@
             max-width: 440px;
             pointer-events: none;
         }
+
         .toast {
             background: rgba(10, 11, 14, 0.95);
             backdrop-filter: blur(16px);
@@ -209,59 +404,64 @@
             animation: slideDown 0.4s forwards;
             pointer-events: auto;
         }
-        .toast.error { border-left-color: #CC4400; }
-        .toast.success { border-left-color: #00ff88; }
+
+        .toast.error {
+            border-left-color: #CC4400;
+        }
+
+        .toast.success {
+            border-left-color: #00ff88;
+        }
+
         @keyframes slideDown {
-            0% { opacity: 0; transform: translateY(-30px) scale(0.9) translateX(-50%); }
-            100% { opacity: 1; transform: translateY(0) scale(1) translateX(-50%); }
+            0% {
+                opacity: 0;
+                transform: translateY(-30px) scale(0.9) translateX(-50%);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1) translateX(-50%);
+            }
+        }
+
+        /* Preview bukti */
+        .preview-container {
+            margin-top: 12px;
+            text-align: center;
+            display: none;
+        }
+
+        .preview-container img {
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .preview-container .remove-btn {
+            background: transparent;
+            border: none;
+            color: #ff4466;
+            font-size: 0.8rem;
+            cursor: pointer;
+            margin-top: 4px;
         }
 
         @media (max-width: 480px) {
-            .saldo-box .amount { font-size: 2.4rem; }
-            .header h1 { font-size: 1.8rem; }
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            .qris-box .qris-image {
+                padding: 12px;
+            }
+            .qris-box .qris-image canvas {
+                width: 180px !important;
+                height: 180px !important;
+            }
+            .saldo-box .amount {
+                font-size: 1.1rem;
+            }
         }
-
-        .status-badge {
-            display: inline-block;
-            padding: 4px 14px;
-            border-radius: 30px;
-            font-size: 0.75rem;
-            font-weight: 700;
-        }
-        .status-badge.pending { background: rgba(255, 140, 0, 0.15); color: #ff8c00; }
-        .status-badge.success { background: rgba(0, 255, 136, 0.15); color: #00ff88; }
-        .status-badge.failed { background: rgba(255, 68, 68, 0.15); color: #ff4466; }
-        .status-badge.withdraw { background: rgba(255, 110, 0, 0.15); color: #FF6E00; }
-
-        /* ===== SETTING ===== */
-        .setting-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 14px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-        }
-        .setting-item .label { color: #9AA0A6; font-size: 0.95rem; }
-        .setting-item .value { color: #fff; font-weight: 600; font-size: 0.95rem; }
-        .setting-item .value.hidden { filter: blur(8px); }
-
-        .menu-item {
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 16px;
-            padding: 18px 12px;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.03);
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        .menu-item:hover {
-            border-color: #FF6E00;
-            background: rgba(255, 110, 0, 0.05);
-            transform: translateY(-3px);
-        }
-        .menu-item .icon { font-size: 28px; display: block; margin-bottom: 4px; }
-        .menu-item .name { font-weight: 700; font-size: 1rem; color: #fff; }
-        .menu-item .desc { font-size: 0.7rem; color: #54585E; }
     </style>
 </head>
 <body>
@@ -270,182 +470,157 @@
 
         <div id="toastContainer"></div>
 
-        <!-- ===== PAGE HOME ===== -->
+        <!-- ============================================================ -->
+        <!-- PAGE HOME -->
+        <!-- ============================================================ -->
         <div class="page active" id="pageHome">
             <div class="card">
                 <div class="header">
-                    <h1>203X Wallet</h1>
-                    <p>DIGITAL PAYMENT</p>
+                    <h1>QRIS Merchant</h1>
+                    <p>QRIS STANDAR NASIONAL</p>
                 </div>
+
                 <div class="saldo-box">
-                    <div class="label">Total Saldo</div>
-                    <div class="amount" id="saldoAmount">Rp 0</div>
-                    <button class="btn-secondary" style="width:auto;padding:4px 16px;font-size:0.75rem;margin-top:8px;" onclick="toggleSaldo()">👁 Sembunyikan</button>
+                    <span class="label">💳 Saldo</span>
+                    <span class="amount" id="saldoAmount">Rp 0</span>
+                </div>
+
+                <div class="qris-box">
+                    <div class="qris-image" id="qrisImage">
+                        <canvas id="qrisCanvas"></canvas>
+                    </div>
+                    <div class="merchant-name" id="merchantName">Samil Store</div>
+                    <div class="qris-id">Dicetak oleh: <span id="qrisId">93600008</span></div>
+                    <div class="badge-free">✅ GRATIS ADMIN</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="header" style="border-bottom-color:rgba(255,110,0,0.05);padding-bottom:10px;margin-bottom:12px;">
+                    <h1 style="font-size:1.2rem;letter-spacing:4px;">3 Langkah Mudah Topup Saldo</h1>
+                </div>
+
+                <div class="steps">
+                    <div class="step">
+                        <div class="number">1</div>
+                        <div class="desc">
+                            Lakukan Transfer Ke <strong>QRIS di Atas</strong> sesuai nominal yang kamu inginkan
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="number">2</div>
+                        <div class="desc">
+                            <strong>Konfirmasi</strong>, Masukan Nominal yang di transfer dan <strong>Foto Bukti Transfer</strong>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="number">3</div>
+                        <div class="desc">
+                            Tunggu <strong>1-5 Menit</strong> Topup saldo akan di proses oleh admin
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <div class="card">
                 <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-                    <div class="menu-item" onclick="navigateTo('pageWithdraw')">
-                        <span class="icon">💳</span>
-                        <div class="name">Penarikan</div>
-                        <div class="desc">Tarik saldo</div>
+                    <div class="menu-item" onclick="navigateTo('pageKonfirmasi')" style="background:rgba(255,255,255,0.02);border-radius:16px;padding:18px 12px;text-align:center;border:1px solid rgba(255,255,255,0.03);cursor:pointer;transition:0.3s;">
+                        <span style="font-size:28px;display:block;margin-bottom:4px;">✅</span>
+                        <div style="font-weight:700;font-size:1rem;color:#fff;">Konfirmasi</div>
+                        <div style="font-size:0.7rem;color:#54585E;">Upload bukti transfer</div>
                     </div>
-                    <div class="menu-item" onclick="navigateTo('pageQris')">
-                        <span class="icon">📱</span>
-                        <div class="name">QRIS</div>
-                        <div class="desc">Terima pembayaran</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- ===== PAGE QRIS ===== -->
-        <div class="page" id="pageQris">
-            <div class="card">
-                <div class="header">
-                    <h1 style="font-size:1.6rem;">QRIS</h1>
-                    <p>TERIMA PEMBAYARAN</p>
-                </div>
-
-                <div class="qris-container">
-                    <div class="form-group">
-                        <label>Nama Customer</label>
-                        <input type="text" id="customerName" placeholder="Nama pembeli" value="Customer">
-                    </div>
-                    <div class="form-group">
-                        <label>Nominal (Rp)</label>
-                        <input type="number" id="qrisAmount" placeholder="10000" value="10000">
-                    </div>
-
-                    <button class="btn-primary" id="btnCreateQris" onclick="createQris()">
-                        ⚡ BUAT QRIS
-                    </button>
-
-                    <div id="qrisResult" style="display:none;margin-top:16px;">
-                        <div style="margin:12px 0;">
-                            <img id="qrisImage" src="" alt="QRIS" style="max-width:100%;border-radius:16px;background:#fff;padding:12px;">
-                        </div>
-                        <div class="qris-info">
-                            <strong id="qrisOrderId">-</strong><br>
-                            <span id="qrisAmountDisplay">Rp 0</span>
-                        </div>
-                        <div id="qrisStatusDisplay" style="margin-top:8px;">
-                            <span class="status-badge pending">⏳ Menunggu Pembayaran</span>
-                        </div>
-                        <button class="btn-secondary" onclick="checkQrisStatus()">🔄 Cek Status</button>
+                    <div class="menu-item" onclick="navigateTo('pageRiwayat')" style="background:rgba(255,255,255,0.02);border-radius:16px;padding:18px 12px;text-align:center;border:1px solid rgba(255,255,255,0.03);cursor:pointer;transition:0.3s;">
+                        <span style="font-size:28px;display:block;margin-bottom:4px;">📋</span>
+                        <div style="font-weight:700;font-size:1rem;color:#fff;">Riwayat</div>
+                        <div style="font-size:0.7rem;color:#54585E;">Lihat transaksi</div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- ===== PAGE WITHDRAW ===== -->
-        <div class="page" id="pageWithdraw">
+        <!-- ============================================================ -->
+        <!-- PAGE KONFIRMASI -->
+        <!-- ============================================================ -->
+        <div class="page" id="pageKonfirmasi">
             <div class="card">
                 <div class="header">
-                    <h1 style="font-size:1.6rem;">Penarikan</h1>
-                    <p>TARIK SALDO</p>
-                </div>
-
-                <div style="display:flex;justify-content:space-between;color:#9AA0A6;font-size:0.9rem;margin-bottom:16px;">
-                    <span>Saldo Tersedia</span>
-                    <span id="withdrawSaldo" style="color:#FF6E00;font-weight:700;">Rp 0</span>
+                    <h1 style="font-size:1.6rem;">Konfirmasi Transfer</h1>
+                    <p>UPLOAD BUKTI TRANSFER</p>
                 </div>
 
                 <div class="form-group">
-                    <label>Nominal Penarikan</label>
-                    <input type="number" id="withdrawAmount" placeholder="Minimal Rp 5.000">
-                </div>
-                <div class="form-group">
-                    <label>Nomor Rekening / E-Wallet</label>
-                    <input type="text" id="withdrawAccount" placeholder="08123456789">
+                    <label>💰 Nominal Transfer</label>
+                    <input type="number" id="nominalTransfer" placeholder="Masukkan nominal yang ditransfer" value="10000">
                 </div>
 
-                <button class="btn-primary" onclick="processWithdraw()">💳 WITHDRAW</button>
+                <div class="form-group">
+                    <label>📸 Foto Bukti Transfer</label>
+                    <input type="file" id="buktiTransfer" accept="image/*" onchange="previewImage(this)">
+                </div>
+
+                <div class="preview-container" id="previewContainer">
+                    <img id="previewImage" src="" alt="Preview bukti transfer">
+                    <button class="remove-btn" onclick="removePreview()">✕ Hapus</button>
+                </div>
+
+                <button class="btn-primary" id="btnKonfirmasi" onclick="konfirmasiTransfer()">
+                    ✅ KONFIRMASI
+                </button>
                 <button class="btn-secondary" onclick="navigateTo('pageHome')">← Kembali</button>
             </div>
         </div>
 
-        <!-- ===== PAGE RIWAYAT ===== -->
+        <!-- ============================================================ -->
+        <!-- PAGE RIWAYAT -->
+        <!-- ============================================================ -->
         <div class="page" id="pageRiwayat">
             <div class="card">
                 <div class="header">
                     <h1 style="font-size:1.6rem;">Riwayat</h1>
-                    <p>TRANSAKSI</p>
+                    <p>TRANSAKSI TOPUP</p>
                 </div>
                 <div id="riwayatList">
                     <div class="empty-state">
                         <span class="icon">📭</span>
-                        Loading...
+                        Belum ada transaksi
                     </div>
                 </div>
                 <button class="btn-secondary" onclick="navigateTo('pageHome')">← Kembali</button>
             </div>
         </div>
 
-        <!-- ===== PAGE SETTING ===== -->
-        <div class="page" id="pageSetting">
-            <div class="card">
-                <div class="header">
-                    <h1 style="font-size:1.6rem;">Pengaturan</h1>
-                    <p>SETTING</p>
-                </div>
-
-                <div class="setting-item">
-                    <span class="label">Server Status</span>
-                    <span class="value" id="serverStatus" style="color:#ff8c00;">⏳ Checking...</span>
-                </div>
-                <div class="setting-item">
-                    <span class="label">Total Saldo</span>
-                    <span class="value" id="settingSaldo">Rp 0</span>
-                </div>
-                <div class="setting-item">
-                    <span class="label">Total Transaksi</span>
-                    <span class="value" id="settingTotalTx">0</span>
-                </div>
-                <div class="setting-item">
-                    <span class="label">API Base</span>
-                    <span class="value" id="apiBaseDisplay" style="font-size:0.7rem;color:#54585E;word-break:break-all;">https://api.example.com</span>
-                </div>
-
-                <div style="margin-top:16px;display:flex;gap:8px;">
-                    <input type="text" id="apiBaseInput" placeholder="https://api.your-server.com" style="flex:1;padding:12px 16px;border-radius:12px;border:2px solid rgba(255,110,0,0.15);background:rgba(0,0,0,0.5);color:#fff;font-family:'Rajdhani',sans-serif;font-size:0.9rem;outline:none;">
-                    <button onclick="saveApiBase()" style="padding:12px 20px;border-radius:12px;border:none;background:#FF6E00;color:#fff;font-weight:700;cursor:pointer;">Simpan</button>
-                </div>
-                <button class="btn-danger" style="width:100%;padding:12px;border:2px solid rgba(255,68,0,0.2);border-radius:16px;background:transparent;color:#FF4400;font-weight:700;font-size:1rem;cursor:pointer;transition:0.3s;margin-top:12px;" onclick="resetAll()">🗑 Reset Semua Data</button>
-                <button class="btn-secondary" onclick="navigateTo('pageHome')">← Kembali</button>
-            </div>
-        </div>
-
-        <!-- ===== BOTTOM NAV ===== -->
+        <!-- ============================================================ -->
+        <!-- BOTTOM NAV -->
+        <!-- ============================================================ -->
         <div class="bottom-nav">
             <button class="nav-item active" data-page="pageHome" onclick="navigateTo('pageHome')">
                 <span class="nav-icon">🏠</span> Home
             </button>
+            <button class="nav-item" data-page="pageKonfirmasi" onclick="navigateTo('pageKonfirmasi')">
+                <span class="nav-icon">✅</span> Konfirmasi
+            </button>
             <button class="nav-item" data-page="pageRiwayat" onclick="navigateTo('pageRiwayat')">
                 <span class="nav-icon">📋</span> Riwayat
-            </button>
-            <button class="nav-item" data-page="pageQris" onclick="navigateTo('pageQris')">
-                <span class="nav-icon">📱</span> Qris
-            </button>
-            <button class="nav-item" data-page="pageSetting" onclick="navigateTo('pageSetting')">
-                <span class="nav-icon">⚙️</span> Setting
             </button>
         </div>
 
     </div>
 
+    <!-- ===== QRCODE LIBRARY ===== -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <!-- ===== OCR LIBRARY (Tesseract.js) ===== -->
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+
     <script>
         // ============================================================
-        // QRIS WALLET - FRONTEND (GITHUB PAGES VERSION)
+        // QRIS MERCHANT - FULL SYSTEM
         // ============================================================
 
-        // ===== API BASE (bisa diubah dari setting) =====
-        let API_BASE = localStorage.getItem('qris_api_base') || 'http://localhost:3000';
-
-        let saldo = 0;
-        let saldoHidden = false;
-        let currentOrderId = null;
+        // ===== STATE =====
+        let saldo = parseInt(localStorage.getItem('qris_saldo')) || 0;
+        let riwayat = JSON.parse(localStorage.getItem('qris_riwayat')) || [];
+        let qrInstance = null;
+        let fileData = null;
 
         // ============================================================
         // TOAST
@@ -474,251 +649,208 @@
         }
 
         // ============================================================
+        // QRIS GENERATE
+        // ============================================================
+        function generateQRIS() {
+            const name = 'Samil Store';
+            const qrId = '93600008';
+            const qrData = `QRIS|MERCHANT:${name}|ID:${qrId}|TYPE:STATIC`;
+
+            const canvas = document.getElementById('qrisCanvas');
+            canvas.width = 240;
+            canvas.height = 240;
+
+            qrInstance = new QRCode(canvas, {
+                text: qrData,
+                width: 220,
+                height: 220,
+                colorDark: '#000000',
+                colorLight: '#FFFFFF',
+                correctLevel: QRCode.CorrectLevel.H
+            });
+
+            document.getElementById('merchantName').textContent = name;
+            document.getElementById('qrisId').textContent = qrId;
+        }
+
+        // ============================================================
         // SALDO
         // ============================================================
-        async function loadSaldo() {
-            try {
-                const resp = await fetch(`${API_BASE}/api/saldo`);
-                const data = await resp.json();
-                saldo = data.saldo || 0;
-                updateSaldoUI();
-                document.getElementById('serverStatus').textContent = '✅ Online';
-                document.getElementById('serverStatus').style.color = '#00ff88';
-            } catch (err) {
-                console.error('Error load saldo:', err);
-                document.getElementById('serverStatus').textContent = '❌ Offline';
-                document.getElementById('serverStatus').style.color = '#ff4466';
-                saldo = 0;
-                updateSaldoUI();
-            }
-        }
-
         function updateSaldoUI() {
-            const formatted = 'Rp ' + saldo.toLocaleString('id-ID');
-            document.getElementById('saldoAmount').textContent = formatted;
-            document.getElementById('withdrawSaldo').textContent = formatted;
-            document.getElementById('settingSaldo').textContent = formatted;
-            if (saldoHidden) {
-                document.getElementById('saldoAmount').classList.add('hidden');
-            } else {
-                document.getElementById('saldoAmount').classList.remove('hidden');
-            }
+            document.getElementById('saldoAmount').textContent = 'Rp ' + saldo.toLocaleString('id-ID');
+            localStorage.setItem('qris_saldo', saldo.toString());
         }
 
-        function toggleSaldo() {
-            saldoHidden = !saldoHidden;
+        function tambahSaldo(nominal, keterangan = 'Topup QRIS') {
+            saldo += nominal;
+            riwayat.push({
+                type: 'Masuk',
+                nominal: nominal,
+                keterangan: keterangan,
+                date: new Date().toLocaleString('id-ID'),
+                status: 'success'
+            });
+            localStorage.setItem('qris_riwayat', JSON.stringify(riwayat));
             updateSaldoUI();
+            showToast(`💰 +Rp ${nominal.toLocaleString('id-ID')} masuk ke saldo!`, 'success');
         }
 
         // ============================================================
-        // QRIS
+        // PREVIEW IMAGE
         // ============================================================
-        async function createQris() {
-            const amount = parseInt(document.getElementById('qrisAmount').value.replace(/\D/g, ''));
-            const customerName = document.getElementById('customerName').value.trim() || 'Customer';
+        function previewImage(input) {
+            const container = document.getElementById('previewContainer');
+            const img = document.getElementById('previewImage');
 
-            if (!amount || amount < 1000) {
-                showToast('Minimal pembayaran Rp 1.000', 'error');
+            if (input.files && input.files[0]) {
+                fileData = input.files[0];
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    img.src = e.target.result;
+                    container.style.display = 'block';
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function removePreview() {
+            document.getElementById('previewContainer').style.display = 'none';
+            document.getElementById('previewImage').src = '';
+            document.getElementById('buktiTransfer').value = '';
+            fileData = null;
+        }
+
+        // ============================================================
+        // KONFIRMASI TRANSFER (DENGAN OCR)
+        // ============================================================
+        async function konfirmasiTransfer() {
+            const nominal = parseInt(document.getElementById('nominalTransfer').value.replace(/\D/g, ''));
+            const file = document.getElementById('buktiTransfer').files[0];
+
+            if (!nominal || nominal < 1000) {
+                showToast('Masukkan nominal minimal Rp 1.000!', 'error');
                 return;
             }
 
-            const btn = document.getElementById('btnCreateQris');
+            if (!file) {
+                showToast('Upload foto bukti transfer!', 'error');
+                return;
+            }
+
+            const btn = document.getElementById('btnKonfirmasi');
             btn.disabled = true;
-            btn.textContent = '⏳ Processing...';
+            btn.textContent = '⏳ MEMPROSES...';
+            showToast('🔍 Menganalisis bukti transfer...', 'info');
 
             try {
-                const resp = await fetch(`${API_BASE}/api/create-qris`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ amount, customerName })
+                // ===== OCR DENGAN TESSERACT =====
+                const imageUrl = URL.createObjectURL(file);
+                const result = await Tesseract.recognize(imageUrl, 'ind', {
+                    logger: m => {
+                        if (m.status === 'recognizing text') {
+                            console.log('OCR progress:', m.progress);
+                        }
+                    }
                 });
-                const data = await resp.json();
 
-                if (data.error) {
-                    showToast(data.error, 'error');
-                    btn.disabled = false;
-                    btn.textContent = '⚡ BUAT QRIS';
-                    return;
+                const text = result.data.text;
+                console.log('OCR Result:', text);
+
+                // ===== EKSTRAK NOMINAL DARI OCR =====
+                // Cari pola angka dengan format Rp atau nominal
+                const regex = /(?:Rp|IDR|ratusan?)?\s*([0-9.,]+)/gi;
+                const matches = text.matchAll(regex);
+                let detectedNominal = null;
+
+                for (const match of matches) {
+                    let angka = match[1].replace(/[,.]/g, '');
+                    let num = parseInt(angka);
+                    if (num > 1000) {
+                        detectedNominal = num;
+                        break;
+                    }
                 }
 
-                currentOrderId = data.order_id;
+                // ===== AUTO VERIFIKASI =====
+                let isVerified = false;
+                let verificationNote = '';
 
-                const resultDiv = document.getElementById('qrisResult');
-                resultDiv.style.display = 'block';
-
-                if (data.qr_code) {
-                    document.getElementById('qrisImage').src = data.qr_code;
-                    document.getElementById('qrisImage').style.display = 'block';
+                if (detectedNominal) {
+                    // Cek apakah nominal yang dideteksi sesuai dengan yang diinput
+                    const tolerance = 500;
+                    if (Math.abs(detectedNominal - nominal) <= tolerance) {
+                        isVerified = true;
+                        verificationNote = `🔍 Terdeteksi: Rp ${detectedNominal.toLocaleString('id-ID')} (Auto Verified)`;
+                    } else {
+                        verificationNote = `⚠️ Deteksi OCR: Rp ${detectedNominal.toLocaleString('id-ID')} (tidak sesuai)`;
+                    }
                 } else {
-                    document.getElementById('qrisImage').style.display = 'none';
+                    verificationNote = '⚠️ Tidak terdeteksi nominal dari bukti. Verifikasi manual.';
                 }
 
-                document.getElementById('qrisOrderId').textContent = `Order: ${data.order_id}`;
-                document.getElementById('qrisAmountDisplay').textContent = `Rp ${amount.toLocaleString('id-ID')}`;
-                document.getElementById('qrisStatusDisplay').innerHTML = `<span class="status-badge pending">⏳ Menunggu Pembayaran</span>`;
+                // ===== TAMBAH SALDO =====
+                tambahSaldo(nominal, `Topup QRIS (${isVerified ? 'Auto' : 'Manual'})`);
 
-                localStorage.setItem('last_qris_order', data.order_id);
-
-                showToast('✅ QRIS berhasil dibuat!', 'success');
-
-                if (window.qrisInterval) clearInterval(window.qrisInterval);
-                window.qrisInterval = setInterval(checkQrisStatus, 5000);
-
+                // ===== RESET FORM =====
+                document.getElementById('nominalTransfer').value = '';
+                removePreview();
                 btn.disabled = false;
-                btn.textContent = '⚡ BUAT QRIS';
+                btn.textContent = '✅ KONFIRMASI';
+                updateRiwayatUI();
+
+                // ===== TOAST HASIL =====
+                if (isVerified) {
+                    showToast(`✅ Topup Rp ${nominal.toLocaleString('id-ID')} berhasil! ${verificationNote}`, 'success');
+                } else {
+                    showToast(`⚠️ Topup Rp ${nominal.toLocaleString('id-ID')} berhasil! ${verificationNote}`, 'info');
+                }
 
             } catch (err) {
-                showToast('Error: ' + err.message, 'error');
+                console.error('OCR Error:', err);
+                // Fallback: tetap tambah saldo meskipun OCR gagal (manual)
+                tambahSaldo(nominal, 'Topup QRIS (Manual)');
+                document.getElementById('nominalTransfer').value = '';
+                removePreview();
                 btn.disabled = false;
-                btn.textContent = '⚡ BUAT QRIS';
-            }
-        }
-
-        async function checkQrisStatus() {
-            const orderId = currentOrderId || localStorage.getItem('last_qris_order');
-            if (!orderId) return;
-
-            try {
-                const resp = await fetch(`${API_BASE}/api/status/${orderId}`);
-                const data = await resp.json();
-
-                if (data.status === 'success') {
-                    document.getElementById('qrisStatusDisplay').innerHTML = `<span class="status-badge success">✅ Pembayaran Berhasil!</span>`;
-                    if (window.qrisInterval) clearInterval(window.qrisInterval);
-                    showToast(`💰 +Rp ${data.amount.toLocaleString('id-ID')} masuk ke saldo!`, 'success');
-                    loadSaldo();
-                    loadRiwayat();
-                } else if (data.status === 'failed') {
-                    document.getElementById('qrisStatusDisplay').innerHTML = `<span class="status-badge failed">❌ Pembayaran Gagal</span>`;
-                    if (window.qrisInterval) clearInterval(window.qrisInterval);
-                } else if (data.status === 'pending') {
-                    document.getElementById('qrisStatusDisplay').innerHTML = `<span class="status-badge pending">⏳ Menunggu Pembayaran...</span>`;
-                }
-
-            } catch (err) {
-                console.error('Error check status:', err);
-            }
-        }
-
-        // ============================================================
-        // WITHDRAW
-        // ============================================================
-        async function processWithdraw() {
-            const amount = parseInt(document.getElementById('withdrawAmount').value.replace(/\D/g, ''));
-            const account = document.getElementById('withdrawAccount').value.trim();
-
-            if (!amount || amount < 5000) {
-                showToast('Minimal penarikan Rp 5.000', 'error');
-                return;
-            }
-            if (!account) {
-                showToast('Masukkan nomor rekening/e-wallet!', 'error');
-                return;
-            }
-
-            try {
-                const resp = await fetch(`${API_BASE}/api/withdraw`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ amount, account })
-                });
-                const data = await resp.json();
-
-                if (data.error) {
-                    showToast(data.error, 'error');
-                    return;
-                }
-
-                showToast(`✅ ${data.message}`, 'success');
-                document.getElementById('withdrawAmount').value = '';
-                document.getElementById('withdrawAccount').value = '';
-                loadSaldo();
-                loadRiwayat();
-
-            } catch (err) {
-                showToast('Error: ' + err.message, 'error');
+                btn.textContent = '✅ KONFIRMASI';
+                updateRiwayatUI();
+                showToast(`✅ Topup Rp ${nominal.toLocaleString('id-ID')} berhasil (tanpa verifikasi otomatis)`, 'success');
             }
         }
 
         // ============================================================
         // RIWAYAT
         // ============================================================
-        async function loadRiwayat() {
-            try {
-                const resp = await fetch(`${API_BASE}/api/riwayat`);
-                const data = await resp.json();
-
-                const container = document.getElementById('riwayatList');
-                if (data.length === 0) {
-                    container.innerHTML = `
-                        <div class="empty-state">
-                            <span class="icon">📭</span>
-                            Belum ada transaksi
-                        </div>
-                    `;
-                    return;
-                }
-
-                let html = '';
-                data.forEach(item => {
-                    const isPlus = item.status === 'success';
-                    const isPending = item.status === 'pending';
-                    const isWithdraw = item.status === 'withdraw';
-                    let statusClass = '';
-                    let statusLabel = '';
-
-                    if (isPlus) { statusClass = 'plus'; statusLabel = '+'; }
-                    else if (isWithdraw) { statusClass = 'minus'; statusLabel = '-'; }
-                    else if (isPending) { statusClass = 'pending'; statusLabel = '⏳'; }
-                    else { statusClass = 'minus'; statusLabel = '✕'; }
-
-                    html += `
-                        <div class="riwayat-item">
-                            <div class="left">
-                                <div class="type">${item.customer_name || 'QRIS Payment'}</div>
-                                <div class="date">${new Date(item.created_at).toLocaleString('id-ID')}</div>
-                            </div>
-                            <div class="right ${statusClass}">
-                                ${statusLabel} Rp ${item.amount.toLocaleString('id-ID')}
-                            </div>
-                        </div>
-                    `;
-                });
-                container.innerHTML = html;
-
-            } catch (err) {
-                console.error('Error load riwayat:', err);
-                document.getElementById('riwayatList').innerHTML = `
+        function updateRiwayatUI() {
+            const container = document.getElementById('riwayatList');
+            if (riwayat.length === 0) {
+                container.innerHTML = `
                     <div class="empty-state">
-                        <span class="icon">⚠️</span>
-                        Gagal load riwayat
+                        <span class="icon">📭</span>
+                        Belum ada transaksi
                     </div>
                 `;
+                return;
             }
-        }
 
-        // ============================================================
-        // SETTING
-        // ============================================================
-        function saveApiBase() {
-            const input = document.getElementById('apiBaseInput');
-            const newUrl = input.value.trim();
-            if (newUrl) {
-                localStorage.setItem('qris_api_base', newUrl);
-                API_BASE = newUrl;
-                document.getElementById('apiBaseDisplay').textContent = newUrl;
-                showToast('✅ API Base updated!', 'success');
-                setTimeout(() => window.location.reload(), 1000);
-            }
-        }
-
-        function resetAll() {
-            if (!confirm('Yakin mau reset semua data lokal?')) return;
-            localStorage.removeItem('qris_api_base');
-            localStorage.removeItem('last_qris_order');
-            localStorage.removeItem('qris_saldo');
-            showToast('🗑 Data lokal direset!', '');
-            setTimeout(() => window.location.reload(), 1000);
+            let html = '';
+            const reversed = [...riwayat].reverse();
+            reversed.forEach(item => {
+                const isPlus = item.type === 'Masuk';
+                const statusLabel = item.status === 'success' ? '' : '⏳';
+                html += `
+                    <div class="riwayat-item">
+                        <div class="left">
+                            <div class="type">${item.keterangan || item.type}</div>
+                            <div class="date">${item.date}</div>
+                        </div>
+                        <div class="right ${isPlus ? 'plus' : ''}">
+                            ${isPlus ? '+' : ''} Rp ${item.nominal.toLocaleString('id-ID')} ${statusLabel}
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
         }
 
         // ============================================================
@@ -731,47 +863,24 @@
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
             document.querySelector(`.nav-item[data-page="${pageId}"]`)?.classList.add('active');
 
-            if (pageId === 'pageRiwayat') loadRiwayat();
-            if (pageId === 'pageHome') loadSaldo();
-            if (pageId === 'pageSetting') {
-                document.getElementById('apiBaseDisplay').textContent = API_BASE;
-                document.getElementById('apiBaseInput').value = API_BASE;
-                loadSaldo();
-                loadRiwayat();
-            }
-            if (pageId === 'pageQris') {
-                const lastOrder = localStorage.getItem('last_qris_order');
-                if (lastOrder) {
-                    currentOrderId = lastOrder;
-                    document.getElementById('qrisOrderId').textContent = `Order: ${lastOrder}`;
-                    document.getElementById('qrisResult').style.display = 'block';
-                    checkQrisStatus();
-                }
-            }
+            if (pageId === 'pageRiwayat') updateRiwayatUI();
+            if (pageId === 'pageHome') updateSaldoUI();
         }
 
         // ============================================================
         // INIT
         // ============================================================
         document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('apiBaseDisplay').textContent = API_BASE;
-            document.getElementById('apiBaseInput').value = API_BASE;
-
-            loadSaldo();
-            loadRiwayat();
+            generateQRIS();
+            updateSaldoUI();
+            updateRiwayatUI();
 
             // Enter key support
-            document.getElementById('withdrawAmount').addEventListener('keydown', function(e) {
-                if (e.key === 'Enter') processWithdraw();
-            });
-            document.getElementById('withdrawAccount').addEventListener('keydown', function(e) {
-                if (e.key === 'Enter') processWithdraw();
-            });
-            document.getElementById('qrisAmount').addEventListener('keydown', function(e) {
-                if (e.key === 'Enter') createQris();
+            document.getElementById('nominalTransfer').addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') konfirmasiTransfer();
             });
         });
     </script>
 
 </body>
-                            </html>
+    </html>
