@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QRIS Generator</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background: #0a0a0a;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .card {
+            background: #1a1a1a;
+            padding: 30px 25px;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 420px;
+            border: 1px solid #333;
+        }
+        .card h1 {
+            text-align: center;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #FF6E00;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            color: #aaa;
+            margin-bottom: 5px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 12px;
+            border: 1px solid #333;
+            background: #0a0a0a;
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+        }
+        .form-group input:focus {
+            border-color: #FF6E00;
+        }
+        .btn-generate {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(90deg, #FF6E00, #FF9E3D);
+            color: #0a0a0a;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 5px;
+        }
+        .btn-generate:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 30px rgba(255, 110, 0, 0.3);
+        }
+        .qr-container {
+            text-align: center;
+            margin-top: 20px;
+            padding: 20px;
+            background: #0a0a0a;
+            border-radius: 16px;
+            border: 1px solid #333;
+            display: none;
+        }
+        .qr-container.show {
+            display: block;
+        }
+        .qr-container canvas {
+            margin: 0 auto;
+        }
+        .qr-container .info {
+            margin-top: 12px;
+            color: #aaa;
+            font-size: 0.85rem;
+            word-break: break-all;
+        }
+        .qr-container .info strong {
+            color: #FF6E00;
+        }
+        .btn-download {
+            margin-top: 12px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            background: #333;
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn-download:hover {
+            background: #555;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #555;
+            font-size: 0.75rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h1>QRIS Generator</h1>
+
+        <div class="form-group">
+            <label>Nama / Merchant ID</label>
+            <input type="text" id="merchantName" placeholder="Contoh: Warung Makmur" value="Warung Makmur">
+        </div>
+        <div class="form-group">
+            <label>Nomor Rekening / Data</label>
+            <input type="text" id="merchantData" placeholder="Contoh: 08123456789" value="08123456789">
+        </div>
+
+        <button class="btn-generate" onclick="generateQR()">⚡ GENERATE QRIS</button>
+
+        <div class="qr-container" id="qrContainer">
+            <div id="qrcode"></div>
+            <div class="info">
+                <strong>Data:</strong> <span id="qrDataDisplay">-</span>
+            </div>
+            <button class="btn-download" onclick="downloadQR()">⬇ DOWNLOAD QRIS</button>
+        </div>
+
+        <div class="footer">QRIS Generator — Tanpa Aplikasi &amp; Tanpa Web Server</div>
+    </div>
+
+    <!-- Library QRCode.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+    <script>
+        let qrCodeInstance = null;
+
+        function generateQR() {
+            const name = document.getElementById('merchantName').value.trim() || 'Merchant';
+            const data = document.getElementById('merchantData').value.trim() || '08123456789';
+
+            // Format QRIS sederhana (bisa disesuaikan)
+            const qrData = `QRIS|MERCHANT:${name}|DATA:${data}|TIMESTAMP:${Date.now()}`;
+
+            const container = document.getElementById('qrContainer');
+            const display = document.getElementById('qrDataDisplay');
+            display.textContent = qrData;
+
+            // Hapus QR lama
+            container.innerHTML = '';
+            
+            // Buat container baru untuk QR
+            const qrDiv = document.createElement('div');
+            qrDiv.id = 'qrcode';
+            container.appendChild(qrDiv);
+
+            // Tambahkan info
+            const infoDiv = document.createElement('div');
+            infoDiv.className = 'info';
+            infoDiv.innerHTML = `<strong>Data:</strong> <span id="qrDataDisplay">${qrData}</span>`;
+            container.appendChild(infoDiv);
+
+            // Tambahkan tombol download
+            const btnDownload = document.createElement('button');
+            btnDownload.className = 'btn-download';
+            btnDownload.textContent = '⬇ DOWNLOAD QRIS';
+            btnDownload.onclick = downloadQR;
+            container.appendChild(btnDownload);
+
+            // Generate QR Code
+            qrCodeInstance = new QRCode(qrDiv, {
+                text: qrData,
+                width: 200,
+                height: 200,
+                colorDark: '#FFFFFF',
+                colorLight: '#0A0A0A',
+                correctLevel: QRCode.CorrectLevel.H
+            });
+
+            container.classList.add('show');
+        }
+
+        function downloadQR() {
+            const canvas = document.querySelector('#qrcode canvas');
+            if (!canvas) {
+                alert('Generate QRIS dulu!');
+                return;
+            }
+            const link = document.createElement('a');
+            link.download = 'qris_203x.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        }
+
+        // Generate otomatis saat halaman dimuat
+        window.onload = generateQR;
+    </script>
+
+</body>
+  </html>
